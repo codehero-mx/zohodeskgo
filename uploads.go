@@ -9,11 +9,12 @@ import (
 )
 
 type Upload struct {
-	Size        string    `json:"size"`
+	ID          string    `json:"id"`
 	CreatorId   string    `json:"creatorId"`
-	Name        string    `json:"name"`
 	CreatedTime time.Time `json:"createdTime"`
+	Name        string    `json:"name"`
 	IsPublic    bool      `json:"isPublic"`
+	Size        string    `json:"size"`
 	Href        string    `json:"href"`
 }
 
@@ -53,6 +54,7 @@ func (u *uploads) Upload(file []byte) (upload *Upload, err error) {
 			Post(uploadsUri)
 	})
 	if err != nil {
+		fmt.Printf("%v\n", err.Error())
 		return
 	}
 
@@ -63,8 +65,6 @@ func (u *uploads) Upload(file []byte) (upload *Upload, err error) {
 	} else {
 		json.Unmarshal(resp.Body(), &upload)
 	}
-
-	fmt.Printf("%v\n", upload)
 
 	return
 }
