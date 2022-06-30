@@ -71,7 +71,10 @@ func newTickets(
 
 func (t *tickets) Create(payload map[string]interface{}) (ticket *Ticket, err error) {
 	payload["departmentId"] = t.deparmentID
-	payload["contactId"] = t.contactID
+
+	if t.contactID > 0 {
+		payload["contactId"] = t.contactID
+	}
 
 	resp, err := t.wrapRequestor(func() (*resty.Response, error) {
 		rest, err := t.requestor()
